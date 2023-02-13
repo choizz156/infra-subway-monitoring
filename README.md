@@ -100,6 +100,7 @@ DAU 450,000명 (10%가 사용한다고 가정)
 1일 최대 rps : 10 * 2(피크 시간대 집중률 2배로 가정) = 20
 
 #### VUser
+
 R:3(메인 페이지 -> 경로 검색 페이지 -> 경로 검색)
 http_req_duration =200ms(100~300ms 사이)
 T = (3 * 200ms) + 1000ms = 1600ms
@@ -139,6 +140,7 @@ const path = function () {
 }
 
 const search = function () {
+
    const max = 727; //지하철 역 id 최대값
    const min = 1;//지하철 역 id 최소값
    const randomNum = function callRandomNum(max, min) {
@@ -149,6 +151,7 @@ const search = function () {
       'Search Path': res => res.status === 200,
    })
 }
+
 export default function () {
   main();
   path();
@@ -158,6 +161,7 @@ export default function () {
 };
 ```
 ![smoke](smoke.png)
+
 
 ### 2. load
 ```javascript
@@ -170,9 +174,9 @@ export let options = {
     {duration: '1m', target: 5},
     {duration: '10s', target: 10},
     {duration: '1m', target: 10},
+
     {duration: '20s', target: 0},
   ],
-
   threshold: {
     http_req_duration: ['p(99)<200'],
   },
@@ -195,6 +199,7 @@ const path = function () {
 }
 
 const search = function () {
+
    const max = 727;
    const min = 1;
    const randomNum = function callRandomNum(max, min) {
@@ -214,6 +219,7 @@ export default function () {
   sleep(1);
 };
 ```
+
 ![load](load.png)!
 
 ### 3. stress
@@ -222,22 +228,21 @@ import http from 'k6/http';
 import {check, group, sleep, fail} from 'k6';
 
 export let options = {
-   stages: [
-      {duration: '10s', target: 10},
-      {duration: '1m', target: 10},
-      {duration: '10s', target: 20},
-      {duration: '1m', target: 20},
-      {duration: '10s', target: 40},
-      {duration: '1m', target: 40},
-      {duration: '10s', target: 80},
-      {duration: '1m', target: 80},
-      {duration: '20s', target: 0},
-   ],
+  stages: [
+    {duration: '10s', target: 10},
+    {duration: '1m', target: 10},
+    {duration: '10s', target: 20},
+    {duration: '1m', target: 20},
+    {duration: '10s', target: 40},
+    {duration: '1m', target: 40},
+    {duration: '10s', target: 80},
+    {duration: '1m', target: 80},
+    {duration: '20s', target: 0},
+  ],
 
-   threshold: {
-      http_req_duration: ['p(99)<200'],
-      'Main Page': ['p(99)<7'],
-   },
+  threshold: {
+    http_req_duration: ['p(99)<200'],
+  },
 };
 
 const BASE_URL = 'https://choizz.o-r.kr/'
@@ -279,6 +284,7 @@ export default function () {
 
 ```
 ![stress](stress.png)
+
 ---
 
 ### 3단계 - 로깅, 모니터링
